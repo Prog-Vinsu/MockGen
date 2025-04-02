@@ -29,34 +29,29 @@ public class MockController {
     public List<Map<String, Object>> generateMockData(@RequestBody Map<String, Object> request) {
         List<Map<String, Object>> resultList = new ArrayList<>();
 
-        // Extrair quantityJson do request (padrão é 1 se não existir)
-        int quantityJson = 1; // Valor padrão
-        if (request.containsKey("quantityJson")) {
-            Object qtyObj = request.get("quantityJson");
-            if (qtyObj instanceof Integer) {
-                quantityJson = (Integer) qtyObj;
-            } else if (qtyObj instanceof String) {
-                try {
+        int quantityJson = 1;
+        try {
+            if (request.containsKey("quantityJson")) {
+                Object qtyObj = request.get("quantityJson");
+                if (qtyObj instanceof Number) {
+                    quantityJson = ((Number) qtyObj).intValue();
+                } else {
                     quantityJson = Integer.parseInt(qtyObj.toString());
-                } catch (NumberFormatException e) {
-                    System.err.println("quantityJson inválido: " + qtyObj);
                 }
-            } else if (qtyObj instanceof Double) {
-                quantityJson = ((Double) qtyObj).intValue();
+
+                quantityJson = Math.min(100, Math.max(1, quantityJson));
             }
+        } catch (Exception e) {
+            System.err.println("Erro ao processar quantityJson, usando valor padrão 1");
         }
 
-        // Extrair os atributos do request
         @SuppressWarnings("unchecked")
         Map<String, Object> attributes = (Map<String, Object>) request.get("attributes");
 
         if (attributes == null || attributes.isEmpty()) {
-            return resultList; // Retorna lista vazia se não houver atributos
+            return resultList;
         }
-
-        System.out.println("Quantidade de JSONs a gerar: " + quantityJson); // Debug
-
-        // Gerar múltiplos conjuntos de dados
+        
         for (int i = 0; i < quantityJson; i++) {
             Map<String, Object> singleResult = new HashMap<>();
 

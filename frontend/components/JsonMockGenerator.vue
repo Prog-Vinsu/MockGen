@@ -142,16 +142,12 @@
           class="flex flex-col md:flex-row items-center justify-between gap-4"
         >
           <div class="flex items-center gap-4 w-full md:w-auto">
-            <label for="quantityJson" class="text-sm font-medium text-gray-700"
+            <label
+              for="quantityJsonInput"
+              class="text-sm font-medium text-gray-700"
               >Quantidade de JSONs</label
             >
-            <input
-              id="quantityJson"
-              v-model="newQuantityJson"
-              type="number"
-              min="1"
-              class="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-center"
-            />
+            <NumberInput v-model="newQuantityJson" :min="1" :max="50" />
           </div>
 
           <button
@@ -265,17 +261,14 @@ export default defineComponent({
       }
 
       const quantity = parseInt(newQuantity.value, 10) || 1;
-      const quantityJson = parseInt(newQuantityJson.value, 10) || 1;
 
       schema[trimmedAttribute] = {
         type: newType.value,
         region: region.value,
         quantity,
-        quantityJson,
       };
       newAttribute.value = "";
       newQuantity.value = 1;
-      newQuantityJson.value = 1;
 
       nextTick(() => {
         if (attributeInput.value) {
@@ -305,12 +298,18 @@ export default defineComponent({
         return;
       }
 
-      try {
-        const payload = {
-          quantityJson: parseInt(newQuantityJson.value) || 1,
-          attributes: schema,
-        };
+      const quantityJson = Math.max(
+        1,
+        Math.min(parseInt(newQuantityJson.value) || 1, 100)
+      );
+      newQuantityJson.value = quantityJson;
 
+      const payload = {
+        quantityJson,
+        attributes: schema,
+      };
+
+      try {
         const response = await axios.post(
           "http://localhost:8080/api/mock",
           payload,
@@ -356,6 +355,7 @@ export default defineComponent({
       newType,
       region,
       newQuantity,
+      newQuantityJson,
       schema,
       mockData,
       error,
