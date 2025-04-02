@@ -1,0 +1,22 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      primjs:
+        specifier: ^0.6.5
+        version: 0.6.5
+
+packages:
+
+  primjs@0.6.5:
+    resolution: {integrity: sha512-azrmNBLKpXyKKtBNeWlX2RDHSWet3mlMYizPalVr0ErsAmZldSSSdWc5q0VnRHn4QOwsjnNCLKfgEmTmjNIxTA==}
+
+snapshots:
+
+  primjs@0.6.5: {}
