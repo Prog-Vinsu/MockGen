@@ -15,6 +15,7 @@ O MockGen é uma ferramenta poderosa para geração de dados fictícios em forma
 
 ### Executando Localmente
 
+#### Frontend (Vue.js)
 1. Clone o repositório:
 ```bash
 git clone https://github.com/seu-usuario/mockgen.git
@@ -22,7 +23,7 @@ git clone https://github.com/seu-usuario/mockgen.git
 
 2. Instale as dependências:
 ```bash
-cd mockgen
+cd mockgen/frontend
 npm install
 ```
 
@@ -36,11 +37,91 @@ npm run dev
 http://localhost:3000
 ```
 
+#### Backend (Spring Boot)
+1. Certifique-se de ter instalado:
+   - Java JDK 17+
+   - Maven 3.8+
+   - Banco de dados (opcional, se estiver usando persistência)
+
+2. Configure o backend:
+```bash
+cd mockgen/backend
+```
+
+3. Edite o arquivo `application.properties` conforme necessário:
+```properties
+# Exemplo de configuração básica
+server.port=8080
+spring.application.name=mockgen-api
+```
+
+4. Execute a aplicação:
+```bash
+mvn spring-boot:run
+```
+
+5. O servidor estará disponível em:
+```
+http://localhost:8080
+```
+
+6. Para construir o pacote:
+```bash
+mvn clean package
+```
+
+7. Para executar o JAR gerado:
+```bash
+java -jar target/mockgen-api-1.0.0.jar
+```
+
 ## 🛠 Tecnologias Utilizadas
 
-- **Frontend**: Vue 3, Tailwind CSS
-- **Backend**: Spring Boot (se aplicável)
-- **Bibliotecas**: Java Faker, PrismJS para highlight de código
+### Frontend
+- Vue 3
+- Tailwind CSS
+- Axios (para comunicação com a API)
+
+### Backend
+- Spring Boot 3.x
+- Java Faker (para geração de dados)
+- Lombok (para redução de boilerplate)
+- Spring Web (para endpoints REST)
+
+## 📚 Documentação da API
+
+A API do MockGen oferece os seguintes endpoints:
+
+### POST /api/mock
+Gera dados mockados conforme o schema fornecido
+
+**Request Body:**
+```json
+{
+  "quantityJson": 1,
+  "attributes": {
+    "nome": {
+      "type": "name",
+      "region": "pt-BR"
+    },
+    "cpf": {
+      "type": "cpf"
+    }
+  }
+}
+```
+
+**Response:**
+```json
+[
+  {
+    "nome": "João Silva",
+    "cpf": "123.456.789-09"
+  }
+]
+```
+
+
 
 ## 🤝 Como Contribuir
 
