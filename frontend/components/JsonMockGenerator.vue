@@ -226,8 +226,9 @@ import {
 import axios from "axios";
 import AttributeList from "./AttributeList.vue";
 import Prism from "prismjs";
-import "prismjs/themes/prism.css";
+import "prismjs/themes/prism-solarizedlight.css";
 import "prismjs/components/prism-json";
+import "prismjs/plugins/line-numbers/prism-line-numbers";
 
 export default defineComponent({
   components: {
@@ -395,5 +396,67 @@ pre code {
   display: block;
   overflow-x: auto;
   padding: 1em;
+}
+
+pre[class*="language-"] {
+  background-color: #f9f9f9;
+  border: 1px solid #e1e4e8;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #9a9a9a;
+}
+
+.token.punctuation {
+  color: #6b6b6b;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #2f6f9f;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: #4f9f4f;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: #d77206;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #0077aa;
+}
+
+.token.function,
+.token.class-name {
+  color: #dd4a68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #ee9900;
 }
 </style>
