@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Mensagem de Contato</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #374151;
+            background-color: #f9fafb;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #3b82f6, #2563eb);
+            padding: 24px;
+            text-align: center;
+            color: white;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .content {
+            padding: 24px;
+        }
+        
+        .message-box {
+            background-color: #f3f4f6;
+            border-left: 4px solid #3b82f6;
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .info-item {
+            display: flex;
+            margin-bottom: 16px;
+            align-items: flex-start;
+        }
+        
+        .info-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+        
+        .info-text h3 {
+            margin: 0 0 4px 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .info-text p {
+            margin: 0;
+            color: #4b5563;
+        }
+        
+        .footer {
+            padding: 16px 24px;
+            text-align: center;
+            font-size: 14px;
+            color: #6b7280;
+            background-color: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background-color: #e0e7ff;
+            color: #4f46e5;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Nova Mensagem de Contato</h1>
+        </div>
+        
+        <div class="content">
+            <div class="badge">Novo Contato</div>
+            <h2 th:text="'Você recebeu uma nova mensagem de ' + ${name}"></h2>
+            
+            <div class="message-box">
+                <p><strong>Assunto:</strong> <span th:text="${subject}"></span></p>
+                <p th:text="${message}"></p>
+            </div>
+            
+            <h3>Informações do Remetente:</h3>
+            
+            <div class="info-item">
+                <div class="info-icon" style="background-color: #dbeafe;">
+                    <svg width="20" height="20" fill="#3b82f6" viewBox="0 0 24 24">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                </div>
+                <div class="info-text">
+                    <h3>Email</h3>
+                    <p th:text="${email}"></p>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-icon" style="background-color: #dcfce7;">
+                    <svg width="20" height="20" fill="#22c55e" viewBox="0 0 24 24">
+                        <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
+                    </svg>
+                </div>
+                <div class="info-text">
+                    <h3>Data/Hora</h3>
+                    <p th:text="${#dates.format(timestamp, 'dd/MM/yyyy HH:mm')}"></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Esta mensagem foi enviada através do formulário de contato do seu site.</p>
+            <p th:text="'© ' + ${year} + ' - Todos os direitos reservados'"></p>
+        </div>
+    </div>
+</body>
+</html>

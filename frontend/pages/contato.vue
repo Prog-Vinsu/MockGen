@@ -266,6 +266,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "ContatoPage",
   data() {
@@ -284,24 +285,36 @@ export default {
       this.loading = true;
 
       try {
-        // Simulação de envio - substitua por sua API real
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-
-        // Limpar formulário após envio
-        this.form = {
-          name: "",
-          email: "",
-          subject: "",
-          message: "",
-        };
-
-        // Mostrar mensagem de sucesso
-        alert("Mensagem enviada com sucesso! Entraremos em contato em breve.");
-      } catch (error) {
-        console.error("Erro ao enviar mensagem:", error);
-        alert(
-          "Ocorreu um erro ao enviar sua mensagem. Por favor, tente novamente."
+        const response = await axios.post(
+          "http://localhost:8080/api/contact",
+          this.form,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         );
+
+        if (response.status === 200) {
+          alert("Mensagem enviada com sucesso!");
+          this.form = { name: "", email: "", subject: "", message: "" };
+        }
+      } catch (error) {
+        if (error.response) {
+          // Erro da resposta do servidor
+          console.error("Erro do servidor:", error.response.data);
+          alert(
+            `Erro ${error.response.status}: ${error.response.data.message}`
+          );
+        } else if (error.request) {
+          // A requisição foi feita mas não houve resposta
+          console.error("Sem resposta do servidor:", error.request);
+          alert("Servidor não respondeu. Verifique se o backend está rodando.");
+        } else {
+          // Erro ao configurar a requisição
+          console.error("Erro de configuração:", error.message);
+          alert("Erro ao enviar mensagem. Verifique sua conexão.");
+        }
       } finally {
         this.loading = false;
       }
