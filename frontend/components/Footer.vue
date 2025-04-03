@@ -3,7 +3,7 @@
     class="bg-gradient-to-r from-gray-800 to-gray-900 text-white pt-12 pb-6"
   >
     <div class="container mx-auto px-4 max-w-7xl">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         <!-- Logo e descrição -->
         <div class="space-y-4">
           <div class="flex items-center space-x-2">
@@ -110,7 +110,7 @@
         <!-- Contato -->
         <div>
           <h3 class="text-lg font-semibold mb-4 text-white">Contato</h3>
-          <ul class="space-y-2 text-gray-400 text-sm">
+          <ul class="space-y-2 text-gray-400 text-sm line-clamp-1">
             <li class="flex items-start">
               <svg
                 class="w-4 h-4 mt-0.5 mr-2 flex-shrink-0"

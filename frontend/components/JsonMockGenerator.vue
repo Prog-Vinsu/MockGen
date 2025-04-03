@@ -131,8 +131,9 @@
         :attributes="schema"
         empty-message="Adicione atributos para gerar dados mockados"
         :removable="true"
-        :editable="false"
+        :editable="true"
         :show-count="true"
+        @edit="editAttribute"
         @remove="removeAttribute"
       />
 
@@ -277,6 +278,26 @@ export default defineComponent({
       });
     };
 
+    const editAttribute = (attr) => {
+      if (!schema[attr]) {
+        error.value = `Atributo "${attr}" não encontrado.`;
+        return;
+      }
+
+      newAttribute.value = attr;
+      newType.value = schema[attr].type;
+      region.value = schema[attr].region;
+      newQuantity.value = schema[attr].quantity;
+
+      removeAttribute(attr);
+
+      nextTick(() => {
+        if (attributeInput.value) {
+          attributeInput.value.focus();
+        }
+      });
+    };
+
     const removeAttribute = (attr) => {
       const newSchema = {};
       Object.entries(schema).forEach(([key, value]) => {
@@ -361,6 +382,7 @@ export default defineComponent({
       error,
       attributeInput,
       addAttribute,
+      editAttribute,
       removeAttribute,
       generateMockData,
       copyToClipboard,
