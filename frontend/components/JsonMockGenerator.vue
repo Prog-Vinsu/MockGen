@@ -217,6 +217,28 @@
               </svg>
               Copiar
             </button>
+
+            <button
+              :disabled="!mockData"
+              class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
+              @click="downloadJsonFile"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                />
+              </svg>
+              Download
+            </button>
           </div>
         </div>
 
@@ -398,6 +420,22 @@ export default defineComponent({
       }
     };
 
+    const downloadJsonFile = () => {
+      if (!mockData.value) return;
+
+      const blob = new Blob([mockData.value], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "dados_mockados.json";
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    };
+
     const highlightedJson = computed(() => {
       if (!mockData.value) return "";
       const html = Prism.highlight(
@@ -427,6 +465,7 @@ export default defineComponent({
       removeAttribute,
       generateMockData,
       copyToClipboard,
+      downloadJsonFile,
       highlightedJson,
     };
   },
@@ -538,7 +577,7 @@ pre[class*="language-"] :deep(code[class*="language-"]) {
 
 .json-display :deep(.token) {
   white-space: inherit !important;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.4s ease-in-out;
 }
 
 .token-line {
