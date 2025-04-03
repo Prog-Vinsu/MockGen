@@ -1,8 +1,8 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-12">
-    <div class="container mx-auto px-4 max-w-6xl">
+    <div class="container mx-auto px-4 max-w-6xl ">
       <!-- Cabeçalho -->
-      <div class="text-center mb-12 mt-16">
+      <div class="text-center mb-12 mt-16 animate-fade-in">
         <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
           Entre em <span class="text-blue-600">Contato</span>
         </h1>
@@ -301,17 +301,14 @@ export default {
         }
       } catch (error) {
         if (error.response) {
-          // Erro da resposta do servidor
           console.error("Erro do servidor:", error.response.data);
           alert(
             `Erro ${error.response.status}: ${error.response.data.message}`
           );
         } else if (error.request) {
-          // A requisição foi feita mas não houve resposta
           console.error("Sem resposta do servidor:", error.request);
           alert("Servidor não respondeu. Verifique se o backend está rodando.");
         } else {
-          // Erro ao configurar a requisição
           console.error("Erro de configuração:", error.message);
           alert("Erro ao enviar mensagem. Verifique sua conexão.");
         }
@@ -324,15 +321,14 @@ export default {
 </script>
 
 <style scoped>
-/* Animação de entrada */
 .animate-fade-in {
-  animation: fadeIn 0.6s ease-out;
+  animation: fadeIn 0.4s ease-out;
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -340,12 +336,10 @@ export default {
   }
 }
 
-/* Transições suaves */
 .transition-colors {
   transition: color 0.2s ease-in-out;
 }
 
-/* Estilo para o textarea */
 textarea {
   resize: vertical;
   min-height: 120px;

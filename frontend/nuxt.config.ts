@@ -9,8 +9,6 @@ export default defineNuxtConfig({
       title: 'MockGen - Gerador de Dados Mockados',
       link: [
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.ico' }, 
-        { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.ico' },
-        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.ico' },
         { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
         { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#3b82f6' }
       ],
