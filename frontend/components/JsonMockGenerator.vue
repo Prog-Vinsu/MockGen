@@ -178,34 +178,56 @@
       </div>
 
       <!-- Saída do JSON -->
+      <!-- Saída do JSON -->
       <div v-if="mockData" class="w-full bg-white p-6 rounded-2xl shadow-lg">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-xl font-semibold text-gray-800">Dados Gerados</h2>
-          <button
-            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 active:scale-95 flex items-center gap-2"
-            @click="copyToClipboard"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
+          <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2">
+              <input
+                id="lineWrapCheckbox"
+                v-model="lineWrap"
+                type="checkbox"
+                class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
               />
-            </svg>
-            Copiar
-          </button>
+              <label
+                for="lineWrapCheckbox"
+                class="text-sm font-medium text-gray-700"
+              >
+                Quebrar linhas
+              </label>
+            </div>
+            <button
+              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 active:scale-95 flex items-center gap-2"
+              @click="copyToClipboard"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
+                />
+              </svg>
+              Copiar
+            </button>
+          </div>
         </div>
 
-        <pre
-          class="language-json bg-gray-50 p-4 rounded-lg overflow-x-auto border border-gray-200 text-sm"
-        ><code v-html="highlightedJson"/></pre>
+        <div class="relative">
+          <pre
+            class="json-display bg-gray-50 p-4 rounded-lg border border-gray-200 text-sm transition-all duration-300 ease-in-out"
+            :class="lineWrap ? 'wrap-mode' : 'no-wrap-mode'"
+          >
+            <code ref="codeElement" class="language-json" v-html="highlightedJson"/>
+          </pre>
+        </div>
       </div>
     </div>
   </div>
@@ -241,6 +263,16 @@ export default defineComponent({
     const mockData = ref(null);
     const error = ref("");
     const attributeInput = ref(null);
+    const lineWrap = ref(false);
+    const codeElement = ref(null);
+
+    watch(lineWrap, () => {
+      nextTick(() => {
+        if (codeElement.value) {
+          Prism.highlightElement(codeElement.value);
+        }
+      });
+    });
 
     onMounted(() => {
       if (attributeInput.value) {
@@ -368,9 +400,16 @@ export default defineComponent({
 
     const highlightedJson = computed(() => {
       if (!mockData.value) return "";
-      return Prism.highlight(mockData.value, Prism.languages.json, "json");
+      const html = Prism.highlight(
+        mockData.value,
+        Prism.languages.json,
+        "json"
+      );
+      return html
+        .split("\n")
+        .map((line) => (line ? `<span class="token-line">${line}</span>` : ""))
+        .join("\n");
     });
-
     return {
       newAttribute,
       newType,
@@ -381,6 +420,8 @@ export default defineComponent({
       mockData,
       error,
       attributeInput,
+      lineWrap,
+      codeElement,
       addAttribute,
       editAttribute,
       removeAttribute,
@@ -408,10 +449,51 @@ export default defineComponent({
   }
 }
 
+.wrap-mode code {
+  animation: lineBreak 0.4s ease-out forwards;
+}
+
+.no-wrap-mode code {
+  animation: lineUnbreak 0.4s ease-out forwards;
+}
+
+@keyframes lineBreak {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) scaleY(0.95);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(5px) scaleY(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+@keyframes lineUnbreak {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scaleY(0.95);
+  }
+  60% {
+    opacity: 0.8;
+    transform: translateY(-3px) scaleY(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
 pre {
   font-family: "Fira Code", "Courier New", Courier, monospace;
   line-height: 1.5;
   tab-size: 2;
+  max-height: 70vh;
+  overflow-y: auto;
+  transition: all 0.5s ease-in-out;
 }
 
 pre code {
@@ -425,6 +507,43 @@ pre[class*="language-"] {
   border: 1px solid #e1e4e8;
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+pre[class*="language-"] :deep(code[class*="language-"]) {
+  white-space: inherit !important;
+}
+
+.json-display {
+  max-height: 70vh;
+  overflow-y: auto;
+  font-family: "Fira Code", "Courier New", monospace;
+  line-height: 1.5;
+}
+
+.wrap-mode {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.no-wrap-mode {
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.json-display code {
+  display: block;
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.4, 1);
+}
+
+.json-display :deep(.token) {
+  white-space: inherit !important;
+  transition: all 0.3s ease-in-out;
+}
+
+.token-line {
+  display: inline-block;
+  width: 100%;
 }
 
 .token.comment,
