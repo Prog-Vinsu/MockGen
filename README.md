@@ -133,10 +133,6 @@ Contribuições são bem-vindas! Siga estes passos:
 4. Push para a branch (`git push origin feature/incrivel`)
 5. Abra um Pull Request
 
-## 📄 Licença
-
-Este projeto está licenciado sob a MIT License - veja o arquivo [LICENSE](LICENSE) para detalhes.
-
 ## 📬 Contato
 
 - Desenvolvedor: [Vincenzo Tognere Polonini](https://github.com/Prog-Vinsu)
