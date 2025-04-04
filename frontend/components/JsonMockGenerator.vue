@@ -44,22 +44,22 @@
             <select
               id="typeSelect"
               v-model="newType"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all truncate"
             >
               <option value="name">Nome</option>
               <option value="email">Email</option>
               <option value="number">Número</option>
               <option value="date">Data</option>
-              <option value="address">Endereço</option>
-              <option value="text">Texto</option>
+              <option value="datetime">Data e Hora</option>
               <option value="cpf">CPF</option>
               <option value="cnpj">CNPJ</option>
-              <option value="phone">Telefone</option>
               <option value="cep">CEP</option>
+              <option value="address">Endereço</option>
+              <option value="text">Texto</option>
+              <option value="phone">Telefone</option>
               <option value="uuid">UUID</option>
               <option value="color">Cor</option>
               <option value="url">URL</option>
-              <option value="datetime">Data e Hora</option>
             </select>
           </div>
 
@@ -72,7 +72,7 @@
             <select
               id="regionSelect"
               v-model="region"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all truncate"
             >
               <option value="pt-BR">Brasil</option>
               <option value="en-US">Estados Unidos</option>
@@ -146,9 +146,11 @@
             <label
               for="quantityJsonInput"
               class="text-sm font-medium text-gray-700"
-              >Quantidade de JSONs</label
+              >Quantidade</label
             >
             <NumberInput v-model="newQuantityJson" :min="1" :max="50" />
+
+            
           </div>
 
           <button
@@ -171,7 +173,7 @@
                   d="M13 10V3L4 14h7v7l9-11h-7z"
                 />
               </svg>
-              Gerar JSON
+              Gerar Dados
             </div>
           </button>
         </div>
@@ -182,6 +184,7 @@
       <div v-if="mockData" class="w-full bg-white p-6 rounded-2xl shadow-lg">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-xl font-semibold text-gray-800">Dados Gerados</h2>
+          <OutputFormatSelector @format-change="handleFormatChange" />
           <div class="flex items-center gap-4">
             <div class="flex items-center gap-2">
               <input
@@ -270,10 +273,13 @@ import Prism from "prismjs";
 import "prismjs/themes/prism-solarizedlight.css";
 import "prismjs/components/prism-json";
 import "prismjs/plugins/line-numbers/prism-line-numbers";
+import { formatData } from "@/utils/outputFormatter";
+import OutputFormatSelector from "@/components/OutputFormatSelector.vue";
 
 export default defineComponent({
   components: {
     AttributeList,
+    OutputFormatSelector,
   },
   setup() {
     const newAttribute = ref("");
@@ -282,11 +288,16 @@ export default defineComponent({
     const newQuantity = ref(1);
     const newQuantityJson = ref(1);
     const schema = reactive({});
-    const mockData = ref(null);
+    const mockData = ref({
+      raw: null, // Armazenará os dados brutos do backend
+      formatted: null, // Armazenará os dados formatados
+      format: "json", // Armazenará o formato atual
+    });
     const error = ref("");
     const attributeInput = ref(null);
     const lineWrap = ref(false);
     const codeElement = ref(null);
+    const outputFormat = ref("json");
 
     watch(lineWrap, () => {
       nextTick(() => {
@@ -301,6 +312,14 @@ export default defineComponent({
         attributeInput.value.focus();
       }
     });
+
+    const handleFormatChange = (format) => {
+      mockData.value.format = format;
+      if (mockData.value.raw) {
+        // Reformate os dados se já existirem
+        mockData.value.formatted = formatData(mockData.value.raw, format, schema);
+      }
+    };
 
     const addAttribute = () => {
       const trimmedAttribute = newAttribute.value.trim();
@@ -369,7 +388,8 @@ export default defineComponent({
 
     const generateMockData = async () => {
       if (Object.keys(schema).length === 0) {
-        error.value = "Adicione pelo menos um atributo antes de gerar o JSON.";
+        error.value =
+          "Adicione pelo menos um atributo antes de gerar os dados.";
         return;
       }
 
@@ -393,7 +413,13 @@ export default defineComponent({
           }
         );
 
-        mockData.value = JSON.stringify(response.data, null, 2);
+        // Armazene os dados brutos e formate-os
+        mockData.value.raw = response.data;
+        mockData.value.formatted = formatData(
+          response.data,
+          mockData.value.format,
+          schema
+        );
         error.value = "";
       } catch (err) {
         console.error(
@@ -402,16 +428,18 @@ export default defineComponent({
         );
         error.value =
           "Erro ao gerar dados mockados. Verifique o console para mais detalhes.";
-        mockData.value = null;
+        mockData.value = { raw: null, formatted: null, format: "json" };
       }
     };
 
     const copyToClipboard = () => {
-      if (mockData.value) {
+      if (mockData.value.formatted) {
         navigator.clipboard
-          .writeText(mockData.value)
+          .writeText(mockData.value.formatted)
           .then(() => {
-            alert("JSON copiado para o clipboard!");
+            alert(
+              `Dados no formato ${mockData.value.format.toUpperCase()} copiados para o clipboard!`
+            );
           })
           .catch((err) => {
             console.error("Erro ao copiar para o clipboard:", err);
@@ -421,14 +449,22 @@ export default defineComponent({
     };
 
     const downloadJsonFile = () => {
-      if (!mockData.value) return;
+      if (!mockData.value.formatted) return;
 
-      const blob = new Blob([mockData.value], { type: "application/json" });
+      const extensionMap = {
+        json: "json",
+        csv: "csv",
+        xml: "xml",
+        sql: "sql",
+      };
+
+      const extension = extensionMap[mockData.value.format] || "txt";
+      const blob = new Blob([mockData.value.formatted], { type: "text/plain" });
       const url = URL.createObjectURL(blob);
 
       const link = document.createElement("a");
       link.href = url;
-      link.download = "dados_mockados.json";
+      link.download = `dados_mockados.${extension}`;
       document.body.appendChild(link);
       link.click();
 
@@ -437,9 +473,17 @@ export default defineComponent({
     };
 
     const highlightedJson = computed(() => {
-      if (!mockData.value) return "";
+      if (!mockData.value.formatted) return "";
+
+      if (mockData.value.format !== "json") {
+        // Para formatos não-JSON, mostre como texto simples
+        return mockData.value.formatted
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
       const html = Prism.highlight(
-        mockData.value,
+        mockData.value.formatted,
         Prism.languages.json,
         "json"
       );
@@ -448,6 +492,7 @@ export default defineComponent({
         .map((line) => (line ? `<span class="token-line">${line}</span>` : ""))
         .join("\n");
     });
+
     return {
       newAttribute,
       newType,
@@ -466,6 +511,8 @@ export default defineComponent({
       generateMockData,
       copyToClipboard,
       downloadJsonFile,
+      handleFormatChange,
+      outputFormat,
       highlightedJson,
     };
   },
@@ -553,10 +600,10 @@ pre[class*="language-"] :deep(code[class*="language-"]) {
 }
 
 .json-display {
-  max-height: 70vh;
+  max-height: 75vh;
   overflow-y: auto;
   font-family: "Fira Code", "Courier New", monospace;
-  line-height: 1.5;
+  line-height: 0;
 }
 
 .wrap-mode {

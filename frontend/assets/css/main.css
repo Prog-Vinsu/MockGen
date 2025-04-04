@@ -7,3 +7,38 @@
     font-style: normal;
     font-display: swap;
   }
+
+:root {
+  --scrollbar-track: #f0f4f8;         
+  --scrollbar-thumb: #9b9b9b;         
+  --scrollbar-thumb-hover: #0662f7;   
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 10px;
+  margin: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 10px;
+  border: 2px solid var(--scrollbar-track);
+  background-clip: padding-box; 
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+  transform: scaleY(1.05);
+}
