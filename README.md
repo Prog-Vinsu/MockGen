@@ -1,7 +1,7 @@
 
-# MockGen - Gerador de Dados Mockados em JSON
+# MockGen - Gerador de Dados Mockados
 
-O MockGen é uma ferramenta poderosa para geração de dados fictícios em formato JSON, perfeita para desenvolvimento, testes e prototipação.
+O MockGen é uma ferramenta poderosa para geração de dados fictícios em formato JSON, XML, CSV e SQL, perfeita para desenvolvimento, testes e prototipação.
 
 ## ✨ Recursos Principais
 
@@ -9,7 +9,7 @@ O MockGen é uma ferramenta poderosa para geração de dados fictícios em forma
 - 🌍 Suporte a múltiplos países (Brasil, EUA, França, Alemanha, Itália)
 - 🛠 15+ tipos de dados diferentes (UUID, cores, URLs, datas, etc.)
 - 🔄 Interface intuitiva com pré-visualização em tempo real
-- 📋 Copiar JSON com um único clique
+- 📋 Copiar dados gerados com um único clique
 
 ## 🚀 Como Usar
 
