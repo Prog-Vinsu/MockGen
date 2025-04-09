@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import type { ModuleOptions } from "@nuxt/content";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
@@ -18,11 +19,7 @@ export default defineNuxtConfig({
       ]
     }
   },
-  nitro: {
-    prerender: {
-      routes: ['/']
-    }
-  },
+  
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
 
@@ -34,6 +31,12 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/scripts',
   ],
+  content: {
+    documentDriven: true,
+    experimental: {
+      nativeSqlite: false
+    }
+  } as unknown as Partial<ModuleOptions>,
 
   vite: {
     plugins: [
