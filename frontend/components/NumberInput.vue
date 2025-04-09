@@ -27,8 +27,9 @@
       :value="modelValue"
       :min="min"
       :max="max"
-      class="w-12 pl-4 text-center py-2 focus:outline-none focus:ring-0 focus:ring-blue-500/30 bg-white text-gray-700 font-medium"
+      class="w-12 text-center py-2 focus:outline-none focus:ring-0 focus:ring-blue-500/30 bg-white text-gray-700 font-medium appearance-none"
       @input="updateValue($event)"
+      @wheel.prevent
     />
     <button
       class="px-3 py-3 bg-gray-50 hover:bg-gray-100 text-gray-600 border-l border-gray-200 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
@@ -90,3 +91,18 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/* Chrome, Safari, Edge */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+</style>
