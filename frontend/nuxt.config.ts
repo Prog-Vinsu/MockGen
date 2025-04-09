@@ -18,7 +18,9 @@ export default defineNuxtConfig({
       ]
     }
   },
-
+  build: {
+    transpile: ['@nuxtjs/mdc']
+  },
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
 

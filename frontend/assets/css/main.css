@@ -1,13 +1,5 @@
 @import "tailwindcss";
 
-@font-face {
-    font-family: 'FarAwayGalaxy';
-    src: url('/fonts/FarAwayGalaxy.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-  }
-
 :root {
   --scrollbar-track: #f0f4f8;         
   --scrollbar-thumb: #9b9b9b;         
