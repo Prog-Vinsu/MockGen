@@ -408,7 +408,7 @@ export default defineComponent({
 
       try {
         const response = await axios.post(
-          "http://localhost:8080/api/mock",
+          "https://mockgen-backend.onrender.com/api/mock",
           payload,
           {
             headers: { "Content-Type": "application/json" },
