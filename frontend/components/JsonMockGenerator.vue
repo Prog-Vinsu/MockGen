@@ -180,66 +180,85 @@
       <!-- Saída do JSON -->
       <!-- Saída do JSON -->
       <div v-if="mockData" class="w-full bg-white p-6 rounded-2xl shadow-lg">
-        <div class="flex justify-between items-center mb-4">
+        <div
+          class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center mb-4"
+        >
           <h2 class="text-xl font-semibold text-gray-800">Dados Gerados</h2>
-          <OutputFormatSelector @format-change="handleFormatChange" />
-          <div class="flex items-center gap-4">
-            <div class="flex items-center gap-2">
-              <input
-                id="lineWrapCheckbox"
-                v-model="lineWrap"
-                type="checkbox"
-                class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-              />
-              <label
-                for="lineWrapCheckbox"
-                class="text-sm font-medium text-gray-700"
-              >
-                Quebrar linhas
-              </label>
-            </div>
-            <button
-              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 active:scale-95 flex items-center gap-2"
-              @click="copyToClipboard"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
-                />
-              </svg>
-              Copiar
-            </button>
 
-            <button
-              :disabled="!mockData"
-              class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
-              @click="downloadJsonFile"
+          <div
+            class="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:gap-2 w-full sm:w-auto"
+          >
+            <!-- Mover o seletor para antes dos botões em mobile -->
+            <OutputFormatSelector
+              class="w-full sm:w-auto"
+              @format-change="handleFormatChange"
+            />
+
+            <div
+              class="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+              <!-- Checkbox em linha própria em mobile -->
+              <div class="flex items-center gap-2 w-full sm:w-auto">
+                <input
+                  id="lineWrapCheckbox"
+                  v-model="lineWrap"
+                  type="checkbox"
+                  class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                 />
-              </svg>
-              Download
-            </button>
+                <label
+                  for="lineWrapCheckbox"
+                  class="text-sm font-medium text-gray-700"
+                >
+                  Quebrar linhas
+                </label>
+              </div>
+
+              <!-- Botões em coluna para mobile -->
+              <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                <button
+                  class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 sm:px-4 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 active:scale-95 flex items-center gap-2 text-sm sm:text-base"
+                  @click="copyToClipboard"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
+                    />
+                  </svg>
+                  Copiar
+                </button>
+
+                <button
+                  :disabled="!mockData"
+                  class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 sm:px-4 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2 text-sm sm:text-base"
+                  @click="downloadJsonFile"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                    />
+                  </svg>
+                  Download
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
