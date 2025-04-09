@@ -18,8 +18,10 @@ export default defineNuxtConfig({
       ]
     }
   },
-  build: {
-    transpile: ['@nuxtjs/mdc']
+  nitro: {
+    prerender: {
+      routes: ['/']
+    }
   },
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
