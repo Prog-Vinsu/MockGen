@@ -103,9 +103,6 @@ Gera dados mockados conforme o schema fornecido
     "nome": {
       "type": "name",
       "region": "pt-BR"
-    },
-    "cpf": {
-      "type": "cpf"
     }
   }
 }
