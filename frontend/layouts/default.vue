@@ -1,12 +1,5 @@
 <template>
   <div>
-    <head>
-      <script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1424643380498076"
-        crossorigin="anonymous"
-      />
-    </head>
     <NavBar />
     <NuxtPage />
     <AppFooter />
