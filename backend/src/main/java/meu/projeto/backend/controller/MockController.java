@@ -22,7 +22,7 @@ import java.time.ZoneId;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://mock-gen-frontend.vercel.app/")
 public class MockController {
 
     @PostMapping("/mock")
