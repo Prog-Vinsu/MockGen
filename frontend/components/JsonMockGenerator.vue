@@ -149,8 +149,6 @@
               >Quantidade</label
             >
             <NumberInput v-model="newQuantityJson" :min="1" :max="50" />
-
-            
           </div>
 
           <button
@@ -317,7 +315,11 @@ export default defineComponent({
       mockData.value.format = format;
       if (mockData.value.raw) {
         // Reformate os dados se já existirem
-        mockData.value.formatted = formatData(mockData.value.raw, format, schema);
+        mockData.value.formatted = formatData(
+          mockData.value.raw,
+          format,
+          schema
+        );
       }
     };
 
