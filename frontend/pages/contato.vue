@@ -286,7 +286,7 @@ export default {
 
       try {
         const response = await axios.post(
-          "http://localhost:8080/api/contact",
+          "https://mockgen-backend.onrender.com/api/contact",
           this.form,
           {
             headers: {
