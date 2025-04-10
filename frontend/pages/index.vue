@@ -217,10 +217,10 @@
               </svg>
             </div>
             <h3 class="text-xl font-semibold text-gray-900 mb-3">
-              JSON Personalizado
+              Formatos Personalizados
             </h3>
             <p class="text-gray-600">
-              Defina a estrutura exata do JSON que você precisa para seus
+              Defina a estrutura exata do JSON, XML, CSV ou SQL que você precisa para seus
               testes.
             </p>
           </div>
@@ -250,7 +250,7 @@
               Defina seus campos
             </h3>
             <p class="text-gray-600">
-              Adicione os atributos que deseja em seu JSON e selecione seus
+              Adicione os atributos que deseja em seu arquivo de dados e selecione seus
               tipos.
             </p>
           </div>
@@ -281,7 +281,7 @@
               Gere e copie
             </h3>
             <p class="text-gray-600">
-              Obtenha seu JSON pronto para usar em seus projetos com um clique.
+              Obtenha seus dados prontos para usar em seus projetos com um clique.
             </p>
           </div>
         </div>
@@ -298,56 +298,48 @@
     </section>
 
     <!-- Testimonials Section -->
-    <section class="py-16 bg-white">
+    <section class="py-16 bg-gray-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
           <h2 class="text-3xl font-bold text-gray-900">
             O que os desenvolvedores dizem
           </h2>
           <p class="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">
-            MockGen está ajudando equipes a acelerar seu desenvolvimento
+            MockGen está transformando a maneira como equipes trabalham
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <!-- Testimonial 1 -->
-          <div class="bg-gray-50 p-8 rounded-xl">
-            <div class="flex items-center mb-4">
-              <div
-                class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold mr-4"
-              >
-                AC
+        <!-- Slider Component com Altura Fixa -->
+        <div class="relative mx-auto max-w-6xl cursor-grab">
+          <SliderComponent
+            :items="testimonials"
+            :qtt-items-xl="2"
+            :qtt-items-lg="2"
+            :qtt-items-md="2"
+            :qtt-items-sm="1"
+            :gutter="30"
+            color-arrow="text-blue-600"
+            :gray-scale-arrow="true"
+            :nav-items="false"
+            :auto-scroll="true"
+            :timer-scroll="5000"
+            :with-thumbs="false"
+          >
+            <template #default="{ item }">
+              <div class="px-3 w-full h-full">
+                <TestimonialCard
+                  :name="item.name"
+                  :role="item.role"
+                  :company="item.company"
+                  :country="item.country"
+                  :text="item.text"
+                  :initials="item.initials"
+                  :color="item.color"
+                  class="h-full"
+                />
               </div>
-              <div>
-                <h4 class="font-semibold text-gray-900">Ana Carolina</h4>
-                <p class="text-gray-600 text-sm">Desenvolvedora Front-end</p>
-              </div>
-            </div>
-            <p class="text-gray-700 italic">
-              "O MockGen salvou incontáveis horas do nosso time de QA. Gerar
-              dados realistas para testar nosso sistema de cadastro nunca foi
-              tão fácil."
-            </p>
-          </div>
-
-          <!-- Testimonial 2 -->
-          <div class="bg-gray-50 p-8 rounded-xl">
-            <div class="flex items-center mb-4">
-              <div
-                class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold mr-4"
-              >
-                RS
-              </div>
-              <div>
-                <h4 class="font-semibold text-gray-900">Ricardo Silva</h4>
-                <p class="text-gray-600 text-sm">Arquiteto de Software</p>
-              </div>
-            </div>
-            <p class="text-gray-700 italic">
-              "Finalmente uma ferramenta que entende as necessidades do mercado
-              brasileiro. Os documentos gerados passam em todas as validações."
-            </p>
-          </div>
+            </template>
+          </SliderComponent>
         </div>
       </div>
     </section>
@@ -379,8 +371,75 @@
 </template>
 
 <script>
+import TestimonialCard from "~/components/TestimonialCard.vue";
+import SliderComponent from "~/components/SliderComponent.vue";
+
 export default {
   name: "IndexPage",
+  components: {
+    TestimonialCard,
+    SliderComponent,
+  },
+  data() {
+    return {
+      testimonials: [
+        {
+          name: "Ana Carvalho",
+          role: "Tech Lead",
+          // company: "Inovatech",
+          // country: "Brasil",
+          text: "O MockGen revolucionou nosso fluxo de desenvolvimento. Gerar dados realistas com documentos válidos economiza horas de trabalho manual que antes gastávamos criando dados fictícios manualmente.",
+          initials: "AC",
+          color: "bg-blue-100 text-blue-600",
+        },
+        {
+          name: "Pedro Santos",
+          role: "Full Stack Developer",
+          // company: "Fintech Global",
+          // country: "Portugal",
+          text: "A possibilidade de gerar dados para múltiplos países foi um divisor de águas para nossos testes internacionais. Agora conseguimos validar nosso sistema com dados de diferentes localidades em segundos.",
+          initials: "PS",
+          color: "bg-green-100 text-green-600",
+        },
+        {
+          name: "Luisa Mendes",
+          role: "QA Engineer",
+          // company: "HealthTech",
+          // country: "EUA",
+          text: "A customização de estruturas JSON nos permite testar exatamente os cenários que precisamos, com dados consistentes. A qualidade dos nossos testes aumentou significativamente desde que começamos a usar o MockGen.",
+          initials: "LM",
+          color: "bg-purple-100 text-purple-600",
+        },
+        {
+          name: "Carlos Ribeiro",
+          role: "Product Manager",
+          // company: "E-commerce Plus",
+          // country: "Alemanha",
+          text: "A integração foi simples e agora toda a equipe consegue gerar seus próprios dados de teste rapidamente. Reduzimos nosso tempo de setup de ambientes de teste em mais de 70%.",
+          initials: "CR",
+          color: "bg-orange-100 text-orange-600",
+        },
+        {
+          name: "Mariana Oliveira",
+          role: "Frontend Developer",
+          // company: "Digital Solutions",
+          // country: "Canadá",
+          text: "Adoro como posso gerar grandes volumes de dados realistas para testar o desempenho das nossas interfaces. Os dados gerados são tão bons que às vezes esqueço que são mockados!",
+          initials: "MO",
+          color: "bg-pink-100 text-pink-600",
+        },
+        {
+          name: "Rafael Costa",
+          role: "Backend Engineer",
+          // company: "API Masters",
+          // country: "Espanha",
+          text: "Como desenvolvedor de APIs, preciso testar diversos cenários de entrada. O MockGen me permite criar rapidamente todos os casos de teste que preciso, incluindo edge cases.",
+          initials: "RC",
+          color: "bg-indigo-100 text-indigo-600",
+        },
+      ],
+    };
+  },
   head() {
     return {
       title: "MockGen - Gerador de Dados Mockados para Desenvolvimento",
@@ -389,7 +448,7 @@ export default {
           hid: "description",
           name: "description",
           content:
-            "Gere dados fictícios em JSON para testes e desenvolvimento. CPF, CNPJ, CEP válidos e suporte para múltiplos países. Ferramenta essencial para desenvolvedores.",
+            "Gere dados fictícios em JSON, CSV, XML ou SQL para testes e desenvolvimento. CPF, CNPJ, CEP válidos e suporte para múltiplos países. Ferramenta essencial para desenvolvedores.",
         },
       ],
     };
@@ -431,6 +490,6 @@ html {
 :target {
   scroll-margin-top: 100px;
   padding-top: 100px;
-  margin-top: -100px; 
+  margin-top: -100px;
 }
 </style>

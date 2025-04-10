@@ -147,7 +147,7 @@
           Próximas Atualizações
         </h2>
         <div class="space-y-8">
-          <div class="timeline-item">
+          <!-- <div class="timeline-item">
             <div class="flex items-center mb-2">
               <div class="w-3 h-3 bg-green-500 rounded-full mr-3" />
               <h3 class="font-semibold text-gray-900">API Pública</h3>
@@ -166,14 +166,14 @@
             <p class="text-gray-600 ml-6">
               Suporte a CSV, JSON e XML com download direto
             </p>
-          </div>
+          </div> -->
           <div class="timeline-item">
             <div class="flex items-center mb-2">
               <div class="w-3 h-3 bg-yellow-500 rounded-full mr-3" />
               <h3 class="font-semibold text-gray-900">Novos Países</h3>
             </div>
             <p class="text-gray-600 ml-6">
-              Expansão para Reino Unido, Espanha e Japão
+              Expansão para Reino Unido, Espanha, Japão, Etc...
             </p>
           </div>
         </div>
