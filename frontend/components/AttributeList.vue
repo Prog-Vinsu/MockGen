@@ -52,7 +52,7 @@
           </div>
 
           <div
-            class="flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity"
+            class="flex space-x-2 md:opacity-0 group-hover:opacity-100 transition-opacity"
           >
             <button
               v-if="editable"
