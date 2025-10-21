@@ -135,4 +135,3 @@ Contribuições são bem-vindas! Siga estes passos:
 - Desenvolvedor: [Vincenzo Tognere Polonini](https://github.com/Prog-Vinsu)
 - Email: tognerepoloniniv@gmail.com
 - LinkedIn: [Vincenzo Tognere Polonini](https://www.linkedin.com/in/vincenzo-tognere-polonini/)
-
